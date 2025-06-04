@@ -1,6 +1,6 @@
 package cleancode.studycafe.tobe.model;
 
-public class StudyCafePass {
+public class StudyCafePass implements Pass {
 
     private final StudyCafePassType passType;
     private final int duration;
@@ -18,33 +18,45 @@ public class StudyCafePass {
         return new StudyCafePass(passType, duration, price, discountRate);
     }
 
-    public StudyCafePassType getPassType() {
-        return passType;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
     public double getDiscountRate() {
         return discountRate;
     }
 
-    public String display() {
-        if (passType == StudyCafePassType.HOURLY) {
-            return String.format("%s시간권 - %d원", duration, price);
-        }
-        if (passType == StudyCafePassType.WEEKLY) {
-            return String.format("%s주권 - %d원", duration, price);
-        }
-        if (passType == StudyCafePassType.FIXED) {
-            return String.format("%s주권 - %d원", duration, price);
-        }
-        return "";
+    public boolean isValidTypeAndDuration(StudyCafeLockerPass lockerPass) {
+        return lockerPass.equalsType(this.passType) && lockerPass.equalsDuration(this.duration);
     }
 
+    @Override
+    public boolean isHourlyType() {
+        return passType == StudyCafePassType.HOURLY;
+    }
+
+    @Override
+    public boolean isWeeklyType() {
+        return passType == StudyCafePassType.WEEKLY;
+    }
+
+    @Override
+    public boolean isFixedType() {
+        return passType == StudyCafePassType.FIXED;
+    }
+
+    @Override
+    public int getDuration() {
+        return this.duration;
+    }
+
+    @Override
+    public int getPrice() {
+        return this.price;
+    }
+
+    @Override
+    public StudyCafePassType getPassType() {
+        return this.passType;
+    }
+
+    public boolean equalsPassType(StudyCafePassType studyCafePassType) {
+        return this.passType == studyCafePassType;
+    }
 }
